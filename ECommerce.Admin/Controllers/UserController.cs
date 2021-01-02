@@ -9,7 +9,7 @@ namespace ECommerce.Admin.Controllers
 {
     public class UserController : Controller
     {
-        UserViewModel tempUser = new UserViewModel() { Password = "123456", UserName = "kahya" };
+        UserViewModel tempUser = new UserViewModel() {  UserName = "kahya", Password = "123456" };
         public IActionResult Index()
         {
             return View();
@@ -23,6 +23,7 @@ namespace ECommerce.Admin.Controllers
         [HttpPost]
         public ActionResult Login(UserViewModel user)
         {
+
             if (user.UserName==tempUser.UserName && user.Password == tempUser.Password)
             {
                 return RedirectToAction("Index","Home");
