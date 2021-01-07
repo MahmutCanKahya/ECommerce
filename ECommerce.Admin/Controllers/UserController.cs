@@ -9,11 +9,8 @@ namespace ECommerce.Admin.Controllers
 {
     public class UserController : Controller
     {
-        UserViewModel tempUser = new UserViewModel() {  UserName = "kahya", Password = "123456" };
-        public IActionResult Index()
-        {
-            return View();
-        }
+        UserLoginViewModel tempUser = new UserLoginViewModel() {  Email = "admin@ecommerce.com", Password = "123456" };
+      
 
         public ActionResult Login()
         {
@@ -21,15 +18,16 @@ namespace ECommerce.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(UserViewModel user)
+        public ActionResult Login(UserLoginViewModel user)
         {
-
-            if (user.UserName==tempUser.UserName && user.Password == tempUser.Password)
+            if (user.Email == tempUser.Email && user.Password == tempUser.Password)
             {
-                return RedirectToAction("Index","Home");
+                /*return Json(data: new { success = true, message = "Başarıyla giriş yapıldı." });*/
+                return RedirectToAction("Index", "Home");
             }
             else
             {
+                /*return Json(data: new { success = false, message = "E-mail veya şifrenizi yanlış tuşladınız." });*/
                 return View();
             }
         }
