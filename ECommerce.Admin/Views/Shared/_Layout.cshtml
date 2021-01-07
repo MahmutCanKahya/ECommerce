@@ -34,10 +34,16 @@
         <!-- Sidebar -->
         @await Html.PartialAsync("_Sidebar")
         <!-- /.sidebar -->
-        
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
                 @RenderBody()
-        @await Html.PartialAsync("_Footer")
-    </div>
+            </section>
+            <!-- /.content -->
+
+        </div>
+            @await Html.PartialAsync("_Footer")
+        </div>
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->

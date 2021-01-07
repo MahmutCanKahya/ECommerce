@@ -18,9 +18,19 @@ namespace ECommerce.Admin.Controllers
             _logger = logger;
         }
 
+
+   
+
         public IActionResult Index()
         {
-            return View();
+            List<WidgetModel> models = new List<WidgetModel>();
+            models.Add(new WidgetModel() { Value="30",Title="Sipariş sayısı",Icon= "ion-bag", WidgetColor= "bg-info" });
+            models.Add(new WidgetModel() { Value="42",Title="Sıçrayış miktarı",Icon= "ion-stats-bars", WidgetColor= "bg-success" });
+            models.Add(new WidgetModel() { Value="51",Title="Kullanıcı geri dönüşü",Icon= "ion-bag", WidgetColor= "bg-warning" });
+            models.Add(new WidgetModel() { Value="36",Title="Özel ziyaretler",Icon= "ion-pie-graph", WidgetColor= "bg-danger" });
+
+
+            return View(models);
         }
 
         public IActionResult Privacy()
