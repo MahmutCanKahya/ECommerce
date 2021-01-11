@@ -1,5 +1,7 @@
-﻿using ECommerce.Admin.Models;
+﻿using ECommerce.Admin.Filters;
+using ECommerce.Admin.Models;
 using ECommerce.Business.Abstract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Admin.Controllers
 {
+   
     public class UserController : Controller
     {
         UserLoginViewModel tempUser = new UserLoginViewModel() {  Email = "admin@ecommerce.com", Password = "123456" };
@@ -26,16 +29,15 @@ namespace ECommerce.Admin.Controllers
         [HttpPost]
         public ActionResult Login(UserLoginViewModel user)
         {
-
-            var isLogin=_userService.Login(user.Email,user.Password);
-            if (isLogin!=null)
+            var _user=_userService.Login(user.Email,user.Password);
+            if (_user != null)
             {
-                /*return Json(data: new { success = true, message = "Başarıyla giriş yapıldı." });*/
+                //Sessiona giriş yapan kullanıcının id'sini kayıt eder.
+                HttpContext.Session.SetString("Login", (_user.Id).ToString());
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                /*return Json(data: new { success = false, message = "E-mail veya şifrenizi yanlış tuşladınız." });*/
                 return View();
             }
         }

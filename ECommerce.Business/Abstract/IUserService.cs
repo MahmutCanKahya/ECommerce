@@ -8,5 +8,6 @@ namespace ECommerce.Business.Abstract
     public interface IUserService
     {
         User Login(string Email, string Password);
+        User GetUserById(int Id);
     }
 }

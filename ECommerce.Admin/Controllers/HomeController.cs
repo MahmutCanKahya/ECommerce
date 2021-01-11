@@ -1,4 +1,6 @@
-﻿using ECommerce.Admin.Models;
+﻿using ECommerce.Admin.Filters;
+using ECommerce.Admin.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Admin.Controllers
 {
+    [IsLogin]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,9 +20,6 @@ namespace ECommerce.Admin.Controllers
         {
             _logger = logger;
         }
-
-
-   
 
         public IActionResult Index()
         {

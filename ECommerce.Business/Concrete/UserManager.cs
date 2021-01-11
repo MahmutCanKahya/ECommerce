@@ -16,6 +16,11 @@ namespace ECommerce.Business.Concrete
             _userDal = userDal;
         }
 
+        public User GetUserById(int Id)
+        {
+            return _userDal.Get(p => p.Id == Id);
+        }
+
         public User Login(string Email, string Password)
         {
             return _userDal.Get(p => p.Email == Email && p.Password == Password);

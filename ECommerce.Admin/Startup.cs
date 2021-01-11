@@ -1,3 +1,4 @@
+using ECommerce.Admin.Filters;
 using ECommerce.Business.Abstract;
 using ECommerce.Business.Concrete;
 using ECommerce.DataAccess.Abstract;
@@ -30,6 +31,7 @@ namespace ECommerce.Admin
         {
             services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IUserDal, EfUserDal>();
+
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddSession(option=>option.IdleTimeout = TimeSpan.FromDays(1));
         }
@@ -60,7 +62,6 @@ namespace ECommerce.Admin
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
-            //Home/INdex/1
             routeBuilder.MapRoute("Default", "{controller=User}/{action=Login}/{id?}");
         }
     }
