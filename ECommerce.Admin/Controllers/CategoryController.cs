@@ -23,7 +23,7 @@ namespace ECommerce.Admin.Controllers
 
 
             return View(model);
-           
+
         }
     }
 }
