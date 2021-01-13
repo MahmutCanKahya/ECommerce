@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ECommerce.Entities.Concrete.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <a asp-controller="Category" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
+    </div>
+</div>
+
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kategoriler</h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><div class="card-body table-responsive p-0">
+                <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            <th class="text-align">@Html.DisplayNameFor(model => model.ImagePath)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                        <tr>
+                            <td>
+                                @category.Name
+                            </td>
+                            <td>
+                                <img src="~/images/@category.ImagePath"
+                                     class="rounded-circle"
+                                     height="40" width="40"
+                                     asp-append-version="true" />
+                            </td>
+                            <td>
+                                <select asp-for="@category.Parent.Name"
+                                        asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
+                                    <option>Please select one</option>
+                                </select>
+                            </td>
+                            <td>
+                                <a href="Javascript:void(0" onclick="Delete(@category.Id)">
+                                    <i class="flaticon-delete"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

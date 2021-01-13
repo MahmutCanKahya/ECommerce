@@ -31,6 +31,8 @@ namespace ECommerce.Admin
         {
             services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IUserDal, EfUserDal>();
+            services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICategoryDal, EfCategoryDal>();
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddSession(option=>option.IdleTimeout = TimeSpan.FromDays(1));

@@ -5,9 +5,8 @@ using System.Text;
 
 namespace ECommerce.Business.Abstract
 {
-    public interface IUserService
+    public interface IUserService:IBaseService<User>
     {
         User Login(string Email, string Password);
-        User GetUserById(int Id);
     }
 }

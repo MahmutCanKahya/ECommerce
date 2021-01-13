@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ECommerce.Core.Entities
 {
-    public interface IEntity
+    public abstract class IEntity
     {
+        public int Id { get; set; }
     }
 }

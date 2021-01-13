@@ -1,4 +1,4 @@
-﻿@model CategoryListViewModel
+﻿@model IEnumerable<ECommerce.Entities.Concrete.Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <a asp-controller="Category" asp-action="Create" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
+        <a asp-controller="Category" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
     </div>
 </div>
 
@@ -29,26 +29,35 @@
                         </div>
                     </div>
                 </div>
-            </div><div class="card-body table-responsive p-0" style="height: 300px;">
+            </div><div class="card-body table-responsive p-0">
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>
-                            <th>İsim</th>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            <th class="text-align">@Html.DisplayNameFor(model => model.ImagePath)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Categories)
+                        @foreach (var category in Model)
                         {
                             <tr>
                                 <td>
-                                    @item.CategoryName
+                                    @category.Name
                                 </td>
-                                @*<td>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                    </td>*@
+                                <td>
+                                    <img src="~/images/@category.ImagePath"
+                                         class="rounded-circle"
+                                         height="40" width="40"
+                                         asp-append-version="true" />
+                                </td>
+                                <td>
+                                    <a href="Javascript:void(0" onclick="Delete(@category.Id)">
+                                        <i class="flaticon-delete"></i>
+                                    </a>
+                                </td>
+
                             </tr>
+
                         }
                     </tbody>
                 </table>
