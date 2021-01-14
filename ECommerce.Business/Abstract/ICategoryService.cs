@@ -10,5 +10,6 @@ namespace ECommerce.Business.Abstract
         ICollection<Category> GetAllParentCategories();
         ICollection<Category> GetAllSubCategories(int level=1);
         ICollection<Category> GetSubCategoriesByParentId(int parentId);
+        public Category GetParentDetail(int id);
     }
 }

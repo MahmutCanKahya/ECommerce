@@ -18,22 +18,27 @@ namespace ECommerce.Business.Concrete
 
         public void Delete(Category entity)
         {
-            _categoryDal.Delete(entity);
+            //_categoryDal.Delete(entity);
+            entity.IsDeleted = true;
+            _categoryDal.Update(entity);
         }
 
         public void DeleteById(int entityID)
         {
-            Delete(Get(entityID));
+            var category = Get(entityID);
+            category.IsDeleted = true;
+            _categoryDal.Update(category);
+            //Delete(Get(entityID));
         }
 
         public Category Get(int entityID)
         {
-            return _categoryDal.Get(p => p.Id == entityID);
+            return _categoryDal.Get(p => p.Id == entityID && !p.IsDeleted);
         }
 
         public ICollection<Category> GetAll()
         {
-            return _categoryDal.GetList();
+            return _categoryDal.GetList(p=>!p.IsDeleted);
         }
 
         public ICollection<Category> GetAllSubCategories(int level=1)
@@ -46,9 +51,15 @@ namespace ECommerce.Business.Concrete
             }
             return subCategories;
         }
+        public Category GetParentDetail(int id)
+        {
+            var category = Get(id);
+             category.Parent = category.ParentId != null ? GetParentDetail((int)(category?.ParentId)) : null;
+            return category;
+        }
         public ICollection<Category> GetAllParentCategories()
         {
-            return _categoryDal.GetList(p => p.ParentId == null);
+            return _categoryDal.GetList(p => p.ParentId == null && !p.IsDeleted);
         }
         public ICollection<Category> GetSubCategoriesByParentId(int parentId)
         {

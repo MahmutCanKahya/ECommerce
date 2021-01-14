@@ -51,10 +51,10 @@
                                      asp-append-version="true" />
                             </td>
                             <td>
-                                <select asp-for="@category.Parent.Name"
+                               @* <select asp-for="@category.Parent.Name"
                                         asp-items="@(new SelectList(Model.EmployeesList,"Id","FullName"))">
                                     <option>Please select one</option>
-                                </select>
+                                </select>*@
                             </td>
                             <td>
                                 <a href="Javascript:void(0" onclick="Delete(@category.Id)">

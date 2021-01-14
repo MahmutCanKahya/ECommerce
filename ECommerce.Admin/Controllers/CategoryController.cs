@@ -29,7 +29,7 @@ namespace ECommerce.Admin.Controllers
         public IActionResult SubCategory()
         {
             var model = _categoryService.GetAllSubCategories();
-            _categoryService.GetAllParentCategories();
+            var CategoryList=_categoryService.GetAllParentCategories();
             return View(model);
         }
         public IActionResult SubSubCategory()
@@ -54,25 +54,41 @@ namespace ECommerce.Admin.Controllers
                     ImagePath = uniqueFileName
                 };
                 _categoryService.Insert(category);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Category));
             }
-            return View();
+            return View(model);
         }
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
-            return View();
+            var category = _categoryService.Get(id);
+            CategoryViewModel model = new CategoryViewModel
+            {
+                Name = category.Name,
+                ImagePath=category.ImagePath,
+            };
+            return View(model);
         }
         [HttpPost]
-        public IActionResult Update(string model)
+        public IActionResult Update(CategoryViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = new FileUpload().UploadedFile(model.CategoryImage, _webHostEnvironment);
+
+                Category category = _categoryService.Get(model.Id);
+                category.ImagePath = uniqueFileName;
+                category.Name = model.Name;
+                _categoryService.Update(category);
+                return RedirectToAction(nameof(Category));
+            }
+            return View(model);
         }
 
         
         public IActionResult Delete(int id)
         {
             _categoryService.DeleteById(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Category));
         }
     }
 }
