@@ -13,7 +13,6 @@ namespace ECommerce.Admin.Controllers
    
     public class UserController : Controller
     {
-        UserLoginViewModel tempUser = new UserLoginViewModel() {  Email = "admin@ecommerce.com", Password = "123456" };
         private IUserService _userService;
 
         public UserController(IUserService userService)

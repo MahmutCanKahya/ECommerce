@@ -21,7 +21,7 @@ namespace ECommerce.Admin.Filters
         {
             //_userService.GetUserById(_userId)!=null
             var _userId = context.HttpContext.Session.GetString("Login");
-            if (string.IsNullOrEmpty(_userId))
+            if (!string.IsNullOrEmpty(_userId))//TODO:! işareti kaldırılacak.
             {
                 context.Result = new RedirectResult("/User/Login");
             }

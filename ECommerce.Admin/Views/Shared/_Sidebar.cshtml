@@ -32,15 +32,21 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-controller="Category" asp-action="Index" class="nav-link">
+                            <a asp-controller="Category" asp-action="Category" class="nav-link">
                                 <i class="nav-icon"></i>
                                 <p>Kategoriler</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
+                            <a asp-controller="Category" asp-action="SubCategory" class="nav-link">
                                 <i class="nav-icon"></i>
                                 <p>Alt Kategoriler</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Category" asp-action="SubSubCategory" class="nav-link">
+                                <i class="nav-icon"></i>
+                                <p>Alt Alt Kategoriler</p>
                             </a>
                         </li>
                         <li class="nav-item">

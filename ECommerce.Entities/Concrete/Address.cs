@@ -2,24 +2,20 @@
 using System;
 using System.Collections.Generic;
 
-#nullable disable
 
 namespace ECommerce.Entities.Concrete
 {
-    public partial class User:IEntity
+    public partial class Address:IEntity
     {
-        public User()
+        public Address()
         {
             Orders = new HashSet<Order>();
             UserAdresses = new HashSet<UserAdress>();
         }
 
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Phone { get; set; }
-        public int? RoleId { get; set; }
+        public int? UserId { get; set; }
+        public string Detail { get; set; }
+        public int? CountyId { get; set; }
         public bool IsDeleted { get; set; }
         public Guid RowGuid { get; set; }
         public DateTime CreateDate { get; set; }
@@ -28,6 +24,7 @@ namespace ECommerce.Entities.Concrete
         public int? UpdateUser { get; set; }
         public bool? IsActive { get; set; }
 
+        public virtual County County { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<UserAdress> UserAdresses { get; set; }
     }
