@@ -32,21 +32,22 @@ namespace ECommerce.Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter = null,bool isAdmin=false)
         {
             using (var context = new TContext())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter);
+                return context.Set<TEntity>().Where(p=>!p.IsDeleted && (p.IsActive ? true : isAdmin)).SingleOrDefault(filter);
             }
         }
 
-        public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null, bool isAdmin = false)
         {
             using (var context = new TContext())
             {
+                var beforeFilter = context.Set<TEntity>().Where(p => !p.IsDeleted && (p.IsActive ? true : isAdmin));
                 return filter == null
-                    ? context.Set<TEntity>().ToList()
-                    : context.Set<TEntity>().Where(filter).ToList();
+                    ? beforeFilter.ToList()
+                    : beforeFilter.Where(filter).ToList();
             }
         }
 

@@ -9,7 +9,7 @@
     <div class="col-md-6">
         <div class="card card-success">
             <div class="card-header">
-                <h3 class="text-center">Insert Category</h3>
+                <h3 class="text-center">Insert Sub Category</h3>
             </div>
             <form enctype="multipart/form-data" asp-action="Insert">
 
@@ -17,11 +17,17 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" placeholder="Name"/>
+                        <input asp-for="Name" class="form-control" placeholder="Name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-
+                        <label>Category</label>
+                        <select class="form-control" asp-for="CategoryId"
+                                asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                            <option>Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="CategoryImage" class="control-label"></label>
                         <div class="custom-file">
                             <input asp-for="CategoryImage" class="custom-file-input" id="customFile">
@@ -29,26 +35,26 @@
                         </div>
                         <span asp-validation-for="CategoryImage" class="text-danger"></span>
                     </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row justify-content-between align-items-center">
-                            <div>
-                                <a asp-action="Index">Back to List</a>
-                            </div>
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-between align-items-center">
+                        <div>
+                            <a asp-action="Index">Back to List</a>
                         </div>
+                        <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
-    @section Scripts {
-        <script type="text/javascript">
-            // Add the following code if you want the name of the file appear on select
-            $(".custom-file-input").on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-        </script>
-    }
+@section Scripts {
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

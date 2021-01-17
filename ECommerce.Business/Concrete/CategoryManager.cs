@@ -1,6 +1,7 @@
 ﻿using ECommerce.Business.Abstract;
 using ECommerce.DataAccess.Abstract;
 using ECommerce.Entities.Concrete;
+using ECommerce.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,16 @@ namespace ECommerce.Business.Concrete
         public CategoryManager(ICategoryDal categoryDal)
         {
             _categoryDal = categoryDal;
+        }
+
+        public Category Get(int entityID)
+        {
+            return _categoryDal.Get(entityID);
+        }
+
+        public ICollection<Category> GetAll()
+        {
+            return _categoryDal.GetList(isAdmin:true);
         }
 
         public void Delete(Category entity)
@@ -31,40 +42,6 @@ namespace ECommerce.Business.Concrete
             //Delete(Get(entityID));
         }
 
-        public Category Get(int entityID)
-        {
-            return _categoryDal.Get(p => p.Id == entityID && !p.IsDeleted);
-        }
-
-        public ICollection<Category> GetAll()
-        {
-            return _categoryDal.GetList(p=>!p.IsDeleted);
-        }
-
-        public ICollection<Category> GetAllSubCategories(int level=1)
-        {
-            var allParentCategories = GetAllParentCategories();
-            ICollection<Category> subCategories= allParentCategories;
-            for (int i = 0; i < level; i++)
-            {
-                subCategories= _categoryDal.GetList(p => p.ParentId != null ? subCategories.Contains(p.Parent) : false);
-            }
-            return subCategories;
-        }
-        public Category GetParentDetail(int id)
-        {
-            var category = Get(id);
-             category.Parent = category.ParentId != null ? GetParentDetail((int)(category?.ParentId)) : null;
-            return category;
-        }
-        public ICollection<Category> GetAllParentCategories()
-        {
-            return _categoryDal.GetList(p => p.ParentId == null && !p.IsDeleted);
-        }
-        public ICollection<Category> GetSubCategoriesByParentId(int parentId)
-        {
-            return _categoryDal.GetList(p => p.ParentId ==parentId);
-        }
         public void Insert(Category entity)
         {
             _categoryDal.Add(entity);
@@ -75,6 +52,14 @@ namespace ECommerce.Business.Concrete
             _categoryDal.Update(entity);
         }
 
-        
+        public ICollection<Category> GetCategoriesByLevel(CategoryLevel level = CategoryLevel.Category)
+        {
+            return _categoryDal.GetCategoriesByLevel(level);
+        }
+
+        public ICollection<Category> GetSubCategoriesById(int id = 0, CategoryLevel level = CategoryLevel.Category)
+        {
+            return _categoryDal.GetSubCategoriesById(id,level);
+        }
     }
 }

@@ -5,13 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<div class="row">
-        <div class="col-sm-12">
-            <a asp-controller="Category" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
-        </div>
-    </div>
-
-    <br>*@
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -19,11 +12,11 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <h3 class="justify-content-center">
-                            Categories
+                            Sub Categories
                         </h3>
                     </div>
                     <div>
-                        <a asp-controller="Category" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
+                        <a asp-controller="SubCategory" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
                     </div>
                 </div>
 
@@ -36,7 +29,8 @@
                                 <thead>
                                     <tr>
                                         <th class="w-8">#</th>
-                                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                        <th>Sub Category</th>
+                                        <th>Category</th>
                                         <th>@Html.DisplayNameFor(model => model.ImagePath)</th>
                                         <th>Ayarlar</th>
                                     </tr>
@@ -44,25 +38,28 @@
                                 <tbody>
                                     @foreach (var category in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                @category.Id
-                                            </td>
-                                            <td>
-                                                @category.Name
-                                            </td>
-                                            <td>
-                                                <img src="~/images/@category.ImagePath"
-                                                     class="rounded-circle"
-                                                     height="40" width="40"
-                                                     asp-append-version="true" />
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-sm btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">SİL</a>
-                                                <a class="btn btn-sm btn-success" asp-controller="Category" asp-action="Update" asp-route-id="@category.Id">Güncelle</a>
-                                            </td>
+                                    <tr>
+                                        <td>
+                                            @category.Id
+                                        </td>
+                                        <td>
+                                            @category.Name
+                                        </td>
+                                        <td>
+                                            @category.Parent.Name
+                                        </td>
+                                        <td>
+                                            <img src="~/images/@category.ImagePath"
+                                                 class="rounded-circle"
+                                                 height="40" width="40"
+                                                 asp-append-version="true" />
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-danger" asp-controller="SubCategory" asp-action="Delete" asp-route-id="@category.Id">SİL</a>
+                                            <a class="btn btn-sm btn-success" asp-controller="SubCategory" asp-action="Update" asp-route-id="@category.Id">Güncelle</a>
+                                        </td>
 
-                                        </tr>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

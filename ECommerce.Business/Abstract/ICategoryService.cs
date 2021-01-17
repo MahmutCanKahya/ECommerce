@@ -1,4 +1,5 @@
 ﻿using ECommerce.Entities.Concrete;
+using ECommerce.Entities.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,8 @@ namespace ECommerce.Business.Abstract
 {
     public interface ICategoryService:IBaseService<Category>
     {
-        ICollection<Category> GetAllParentCategories();
-        ICollection<Category> GetAllSubCategories(int level=1);
-        ICollection<Category> GetSubCategoriesByParentId(int parentId);
-        public Category GetParentDetail(int id);
+        ICollection<Category> GetCategoriesByLevel(CategoryLevel level=CategoryLevel.Category);
+        ICollection<Category> GetSubCategoriesById(int id = 0, CategoryLevel level = CategoryLevel.Category);
+
     }
 }
