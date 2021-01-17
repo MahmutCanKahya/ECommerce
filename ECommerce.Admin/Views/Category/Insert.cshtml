@@ -1,0 +1,54 @@
+﻿@model CategoryViewModel
+
+@{
+    ViewData["Title"] = "Insert";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="text-center">Insert Category</h3>
+            </div>
+            <form enctype="multipart/form-data" asp-action="Insert">
+
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Name"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+
+                        <label asp-for="CategoryImage" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="CategoryImage" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <span asp-validation-for="CategoryImage" class="text-danger"></span>
+                    </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between align-items-center">
+                            <div>
+                                <a asp-action="Index">Back to List</a>
+                            </div>
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+        <script type="text/javascript">
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        </script>
+    }

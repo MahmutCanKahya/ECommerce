@@ -1,4 +1,7 @@
-﻿using ECommerce.Admin.Models;
+﻿using ECommerce.Admin.Filters;
+using ECommerce.Admin.Models;
+using ECommerce.Business.Abstract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,12 +10,14 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Admin.Controllers
 {
+   
     public class UserController : Controller
     {
-        UserViewModel tempUser = new UserViewModel() {  UserName = "kahya", Password = "123456" };
-        public IActionResult Index()
+        private IUserService _userService;
+
+        public UserController(IUserService userService)
         {
-            return View();
+            _userService = userService;
         }
 
         public ActionResult Login()
@@ -21,12 +26,14 @@ namespace ECommerce.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(UserViewModel user)
+        public ActionResult Login(UserLoginViewModel user)
         {
-
-            if (user.UserName==tempUser.UserName && user.Password == tempUser.Password)
+            var _user=_userService.Login(user.Email,user.Password);
+            if (_user != null)
             {
-                return RedirectToAction("Index","Home");
+                //Sessiona giriş yapan kullanıcının id'sini kayıt eder.
+                HttpContext.Session.SetString("Login", (_user.Id).ToString());
+                return RedirectToAction("Index", "Home");
             }
             else
             {

@@ -1,0 +1,68 @@
+﻿@model CategoryViewModel
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="text-center">Update Sub Category</h3>
+            </div>
+            <form enctype="multipart/form-data" asp-action="Update">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" asp-for="CategoryId"
+                                asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                            <option>Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row align-content-center">
+                            <div class="col-11">
+                                <label asp-for="CategoryImage" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="CategoryImage" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="CategoryImage" class="text-danger"></span>
+                            </div>
+                            <div class="col-1 text-center">
+                                <img src="~/images/@Model.ImagePath"
+                                     class="img-thumbnail"
+                                     asp-append-version="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-between align-items-center">
+                        <div>
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+    </script>
+}

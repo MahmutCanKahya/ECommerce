@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Admin.Models
 {
-    public class UserViewModel
+    public class UserLoginViewModel
     {
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }
