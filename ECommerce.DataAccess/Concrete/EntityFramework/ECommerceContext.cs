@@ -118,11 +118,23 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsFixedLength(true)
                     .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.Counties)
@@ -136,6 +148,10 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
                 entity.Property(e => e.CreateDate)
                     .HasColumnType("date")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
 
@@ -181,6 +197,10 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
                     .HasColumnType("date")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(18, 2)");
@@ -197,9 +217,21 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
             {
                 entity.ToTable("OrderStatus");
 
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsFixedLength(true);
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -265,21 +297,45 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsFixedLength(true)
                     .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(30)
                     .IsFixedLength(true)
                     .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Shipper>(entity =>
@@ -349,10 +405,22 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
 
             modelBuilder.Entity<UserAdress>(entity =>
             {
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.UserAdresses)

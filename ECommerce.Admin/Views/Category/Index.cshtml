@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ECommerce.Entities.Concrete.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h3 class="justify-content-center">
+                            Categories
+                        </h3>
+                    </div>
+                    <div>
+                        <a asp-controller="Category" asp-action="Insert" class="btn btn-rounded btn-info pull-right">Yeni Kategori Ekle</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                                <thead>
+                                    <tr>
+                                        <th class="w-8">#</th>
+                                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                        <th>@Html.DisplayNameFor(model => model.ImagePath)</th>
+                                        <th>Ayarlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var category in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @category.Id
+                                            </td>
+                                            <td>
+                                                @category.Name
+                                            </td>
+                                            <td>
+                                                <img src="~/images/@category.ImagePath"
+                                                     class="rounded-circle"
+                                                     height="40" width="40"
+                                                     asp-append-version="true" />
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id">SİL</a>
+                                                <a class="btn btn-sm btn-success" asp-controller="Category" asp-action="Update" asp-route-id="@category.Id">Güncelle</a>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example2').DataTable();
+        });
+    </script>
+}
