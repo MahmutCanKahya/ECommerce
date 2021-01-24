@@ -42,9 +42,9 @@ namespace ECommerce.Business.Concrete
             //Delete(Get(entityID));
         }
 
-        public void Insert(Category entity)
+        public Category Insert(Category entity)
         {
-            _categoryDal.Add(entity);
+            return _categoryDal.Add(entity);
         }
 
         public void Update(Category entity)

@@ -1,0 +1,147 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Insert";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="text-center">Insert Sub Sub Category</h3>
+            </div>
+            <form enctype="multipart/form-data" asp-action="Edit">
+
+                <div class="card-body">
+                    @Html.HiddenFor(m => m.Id)
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Discount" class="control-label"></label>
+                        <input asp-for="Discount" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BrandName" class="control-label"></label>
+                        <input asp-for="BrandName" class="form-control" placeholder="Name" />
+                        <span asp-validation-for="BrandName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" asp-for="CategoryId"
+                                asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                            <option>Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Category</label>
+                        <select class="form-control" asp-for="SubCategoryId"
+                                asp-items="@(new SelectList(Model.SubCategories,"Id","Name"))">
+                            <option value="-1">Select Sub Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sub Sub Category</label>
+                        <select class="form-control" asp-for="SubSubCategoryId"
+                                asp-items="@(new SelectList(Model.SubSubCategories,"Id","Name"))">
+                            <option value="-1">Select Sub Sub Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row align-content-center">
+                            <div class="col-11">
+                                <label asp-for="ProductImages" class="control-label"></label>
+                                <div class="custom-file">
+                                    <input asp-for="ProductImages" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="ProductImages" class="text-danger"></span>
+                            </div>
+                            <div class="col-1 text-center">
+                                <img src="~/images/@(Model.ProductImagesPath.FirstOrDefault())"
+                                     class="img-thumbnail"
+                                     asp-append-version="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-between align-items-center">
+                        <div>
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $("#CategoryId").change(() => {
+                $("#SubCategoryId").empty();
+                $("#SubSubCategoryId").empty();
+                $.ajax({
+                    type:'GET',
+                    url: '@Url.Action("LoadSubCategory")',
+                    dataType: 'json',
+                    data: { CategoryId: $("#CategoryId").val() },
+                    success: (states) => {
+                        $("#SubCategoryId").append('<option value="' + -1 + '">' + "Select Sub Category" + "</option>");
+                        $("#SubSubCategoryId").append('<option value="' + -1 + '">' + "Select Sub Sub Category" + "</option>");
+                        $.each(states, (i, state) => {
+                            $("#SubCategoryId").append('<option value="' + state.value + '">' + state.text + "</option>");
+                        });
+                    },
+                    error: (e) => {
+                        console.log(e);
+                    }
+                })
+            });
+            $("#SubCategoryId").change(() => {
+                $("#SubSubCategoryId").empty();
+                $.ajax({
+                    type:'GET',
+                    url: '@Url.Action("LoadSubSubCategory")',
+                    dataType: 'json',
+                    data: { CategoryId: $("#SubCategoryId").val() },
+                    success: (states) => {
+                        $("#SubSubCategoryId").append('<option value="' + -1 + '">' + "Select Sub Sub Category" + "</option>");
+                        $.each(states, (i, state) => {
+                            $("#SubSubCategoryId").append('<option value="' + state.value + '">' + state.text + "</option>");
+                        });
+                    },
+                    error: (e) => {
+                        console.log(e);
+                    }
+                })
+            });
+        })
+    </script>
+}

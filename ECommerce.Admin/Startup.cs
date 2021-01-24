@@ -33,6 +33,12 @@ namespace ECommerce.Admin
             services.AddScoped<IUserDal, EfUserDal>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICategoryDal, EfCategoryDal>();
+            services.AddScoped<IProductService, ProductManager>();
+            services.AddScoped<IProductDal, EfProductDal >();
+            services.AddScoped<IBrandService, BrandManager>();
+            services.AddScoped<IBrandDal, EfBrandDal>();
+            services.AddScoped<IProductImageService, ProductImageManager>();
+            services.AddScoped<IProductImageDal, EfProductImageDal>();
 
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddSession(option=>option.IdleTimeout = TimeSpan.FromDays(1));

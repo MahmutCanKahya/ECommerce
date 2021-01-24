@@ -12,23 +12,25 @@ namespace ECommerce.Core.DataAccess.EntityFramework
         where TEntity :  IEntity, new()
         where TContext : DbContext, new()
     {
-        public void Add(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
             using (var context = new TContext())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
                 context.SaveChanges();
+                return entity;
             }
         }
 
-        public void Delete(TEntity entity)
+        public TEntity Delete(TEntity entity)
         {
             using (var context = new TContext())
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
+                return entity;
             }
         }
 
@@ -36,7 +38,7 @@ namespace ECommerce.Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                return context.Set<TEntity>().Where(p=>!p.IsDeleted && (p.IsActive ? true : isAdmin)).SingleOrDefault(filter);
+                return context.Set<TEntity>().SingleOrDefault(filter);
             }
         }
 
@@ -44,20 +46,20 @@ namespace ECommerce.Core.DataAccess.EntityFramework
         {
             using (var context = new TContext())
             {
-                var beforeFilter = context.Set<TEntity>().Where(p => !p.IsDeleted && (p.IsActive ? true : isAdmin));
                 return filter == null
-                    ? beforeFilter.ToList()
-                    : beforeFilter.Where(filter).ToList();
+                    ? context.Set<TEntity>().ToList()
+                    : context.Set<TEntity>().Where(filter).ToList();
             }
         }
 
-        public void Update(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             using (var context = new TContext())
             {
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
+                return entity;
             }
         }
     }
