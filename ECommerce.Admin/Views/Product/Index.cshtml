@@ -5,116 +5,112 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h3 class="justify-content-center">
+                            Products
+                        </h3>
+                    </div>
+                    <div>
+                        <a asp-controller="Product" asp-action="Edit" class="btn btn-rounded btn-info pull-right">Ürün Ekle</a>
+                    </div>
+                </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowGuid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BrandId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowGuid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+            </div>
+            <div class="card-body">
+                <div id="example2_wrapper" class="overflow-auto table table-striped dataTable dtr-inline collapsed">
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" role="grid" aria-describedby="example2_info">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Ürün Resmi</th>
+                                        <th>Kategori</th>
+                                        <th>Alt Kategori</th>
+                                        <th>Alt Alt Kategori</th>
+                                        <th>Marka</th>
+                                        <th>Aktif</th>
+                                        <th>Açıklama</th>
+                                        <th>İndirim</th>
+                                        <th>Birim Fiyat</th>
+                                        <th>İndirimli Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Ayarlar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in Model)
+                                    {
+                                        string ProductImage = product.ProductImages.Count == 0? "statics/no_product.jpg" : product.ProductImages.LastOrDefault().Path;
+                                    <tr>
+                                        <td>
+                                            @product.Name
+                                        </td>
+                                        <td>
+                                            <img src="~/images/@ProductImage"
+                                                 class="rounded-circle"
+                                                 height="40" width="40"
+                                                 asp-append-version="true" />
+                                        </td>
+                                        <td>
+                                            @product.Category.Parent.Parent.Name
+                                        </td>
+                                        <td>
+                                            @product.Category.Parent.Name
+                                        </td>
+                                        <td>
+                                            @product.Category.Name
+                                        </td>
+                                        <td>
+                                            @product.Brand.Name
+                                        </td>
+                                        <td>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" asp-for="@product.IsActive" disabled>
+                                                <label class="custom-control-label" asp-for="@product.IsActive">@(product.IsActive?"Active":"Inactive")</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @product.Description
+                                        </td>
+                                        <td>
+                                            @product.Discount
+                                        </td>
+                                        <td>
+                                            @product.Price
+                                        </td>
+                                        <td>
+                                            @(product.Price/100*(100-(decimal)product.Discount))
+                                        </td>
+                                        <td>
+                                            @product.Stock
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id">SİL</a>
+                                            <a class="btn btn-sm btn-success" asp-controller="Product" asp-action="Edit" asp-route-ProductId="@product.Id">Güncelle</a>
+                                        </td>
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#example2').DataTable();
+        });
+    </script>
 }
-    </tbody>
-</table>

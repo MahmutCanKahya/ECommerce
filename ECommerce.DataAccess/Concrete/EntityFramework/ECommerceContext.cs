@@ -1,4 +1,5 @@
 ﻿using System;
+using ECommerce.DataAccess.DB.Extensions;
 using ECommerce.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -436,6 +437,7 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
             });
 
             OnModelCreatingPartial(modelBuilder);
+            modelBuilder.AddGlobalFilter();
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

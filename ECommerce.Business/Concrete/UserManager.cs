@@ -26,9 +26,9 @@ namespace ECommerce.Business.Concrete
             return _userDal.GetList();
         }
 
-        public void Insert(User entity)
+        public User Insert(User entity)
         {
-            _userDal.Add(entity);
+            return _userDal.Add(entity);
         }
 
         public void Update(User entity)

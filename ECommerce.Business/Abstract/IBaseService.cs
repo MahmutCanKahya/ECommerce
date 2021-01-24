@@ -7,7 +7,7 @@ namespace ECommerce.Business.Abstract
 {
     public interface IBaseService<T> where T:IEntity
     {
-        void Insert(T entity);
+        T Insert(T entity);
         void DeleteById(int entityID);
         void Delete(T entity);
         void Update(T entity);

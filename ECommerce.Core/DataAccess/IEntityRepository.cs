@@ -10,8 +10,8 @@ namespace ECommerce.Core.DataAccess
     {
         T Get(Expression<Func<T, bool>> filter=null,bool isAdmin=false);
         List<T> GetList(Expression<Func<T, bool>> filter = null, bool isAdmin = false);
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        T Add(T entity);
+        T Update(T entity);
+        T Delete(T entity);
     }
 }
