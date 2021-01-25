@@ -13,6 +13,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
+    <link href="~/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -26,7 +27,7 @@
 
 <body>
     <header id="header">
-        @await Html.PartialAsync("_Header") 
+        @await Html.PartialAsync("_Header")
     </header><!--/header-->
 
     <section id="slider">
@@ -98,17 +99,37 @@
     <section>
         @RenderBody()
     </section>
-
+    @if (TempData["message"] != null)
+    {
+        <div  id="message">
+            @TempData["message"]
+        </div>
+    }
 
     <!--Footer-->
-    @await Html.PartialAsync("_Footer"); 
+    @await Html.PartialAsync("_Footer");
 
 
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/price-range.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#message').change(function () {
+                // show when the button is clicked
+                Swal.fire(
+                    $('#message').val()
+                )
+
+            });
+
+        });
+    </script>
     <script src="js/main.js"></script>
+
 </body>
 </html>

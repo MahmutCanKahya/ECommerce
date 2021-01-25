@@ -1,3 +1,7 @@
+using ECommerce.Business.Abstract;
+using ECommerce.Business.Concrete;
+using ECommerce.DataAccess.Abstract;
+using ECommerce.DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +27,8 @@ namespace ECommerce.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IProductService,ProductManager>();
+            services.AddSingleton<IProductDal,EfProductDal>();
             services.AddControllersWithViews();
         }
 
