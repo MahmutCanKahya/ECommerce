@@ -29,6 +29,8 @@ namespace ECommerce.WebUI
         {
             services.AddSingleton<IProductService,ProductManager>();
             services.AddSingleton<IProductDal,EfProductDal>();
+            services.AddSingleton<IBasketService,BasketManager>();
+            services.AddSingleton<IBasketDal, EfBasketDal>();
             services.AddControllersWithViews();
         }
 
