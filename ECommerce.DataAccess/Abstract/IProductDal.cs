@@ -8,7 +8,9 @@ namespace ECommerce.DataAccess.Abstract
 {
     public interface IProductDal:IEntityRepository<Product>
     {
-        public ICollection<Product> GetAll();
+        public List<Product> GetAll();
         public Product Get(int ProductId);
+        public List<Product> GetByCategory(int categoryId);
+
     }
 }

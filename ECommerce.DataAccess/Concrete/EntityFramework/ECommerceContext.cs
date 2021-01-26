@@ -1,5 +1,4 @@
 ﻿using System;
-using ECommerce.DataAccess.DB.Extensions;
 using ECommerce.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -20,6 +19,8 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
         }
 
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Basket> Baskets { get; set; }
+        public virtual DbSet<BasketDetail> BasketDetails { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<County> Counties { get; set; }
@@ -32,12 +33,12 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Shipper> Shippers { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserAdress> UserAdresses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=.;Database=ECommerce;Trusted_Connection=True;");
             }
         }
@@ -52,10 +53,40 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
                     .HasColumnType("date")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Detail)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.FullAddress)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
+
+                entity.HasOne(d => d.County)
+                    .WithMany(p => p.Addresses)
+                    .HasForeignKey(d => d.CountyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Addresses_Counties");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Addresses)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Addresses_Users");
+            });
+
+            modelBuilder.Entity<Basket>(entity =>
+            {
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.IsActive)
                     .IsRequired()
@@ -65,10 +96,38 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
 
                 entity.Property(e => e.UpdateDate).HasColumnType("date");
 
-                entity.HasOne(d => d.County)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.CountyId)
-                    .HasConstraintName("FK_Addresses_Counties");
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Baskets)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Baskets_Users");
+            });
+
+            modelBuilder.Entity<BasketDetail>(entity =>
+            {
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.UpdateDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Basket)
+                    .WithMany(p => p.BasketDetails)
+                    .HasForeignKey(d => d.BasketId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BasketDetails_Baskets");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.BasketDetails)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BasketDetails_Products");
             });
 
             modelBuilder.Entity<Brand>(entity =>
@@ -168,12 +227,6 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Addresses");
 
-                entity.HasOne(d => d.OrderDetail)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.OrderDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_OrderDetails");
-
                 entity.HasOne(d => d.Shipper)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.ShipperId)
@@ -204,13 +257,18 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
 
                 entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.TotalPrice).HasColumnType("decimal(18, 2)");
-
                 entity.Property(e => e.UpdateDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderDetails_Orders");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SubOrder_Products");
             });
 
@@ -404,40 +462,7 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
                 entity.Property(e => e.UpdateDate).HasColumnType("date");
             });
 
-            modelBuilder.Entity<UserAdress>(entity =>
-            {
-                entity.Property(e => e.CreateDate)
-                    .HasColumnType("date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RowGuid).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.UpdateDate).HasColumnType("date");
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.UserAdresses)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserAdresses_Addresses");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserAdresses)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserAdresses_Users");
-            });
-
             OnModelCreatingPartial(modelBuilder);
-            modelBuilder.AddGlobalFilter();
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

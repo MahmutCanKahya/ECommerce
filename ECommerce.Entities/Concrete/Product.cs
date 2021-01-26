@@ -11,6 +11,7 @@ namespace ECommerce.Entities.Concrete
     {
         public Product()
         {
+            BasketDetails = new HashSet<BasketDetail>();
             OrderDetails = new HashSet<OrderDetail>();
             ProductImages = new HashSet<ProductImage>();
         }
@@ -25,6 +26,8 @@ namespace ECommerce.Entities.Concrete
 
         public virtual Brand Brand { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ICollection<BasketDetail> BasketDetails { get; set; }
+
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
     }

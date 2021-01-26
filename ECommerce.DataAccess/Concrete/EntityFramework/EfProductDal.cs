@@ -11,7 +11,7 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
 {
     public class EfProductDal : EfEntityRepositoryBase<Product, ECommerceContext>, IProductDal
     {
-        public ICollection<Product> GetAll()
+        public List<Product> GetAll()
         {
             using (var context = new ECommerceContext())
             {
@@ -25,6 +25,15 @@ namespace ECommerce.DataAccess.Concrete.EntityFramework
             using (var context = new ECommerceContext())
             {
                 var result = context.Products.Include(p => p.Brand).Include(p => p.Category).ThenInclude(p => p.Parent).ThenInclude(p => p.Parent).Include(p => p.ProductImages.Where(p=>p.ProductId== ProductId)).FirstOrDefault(p=>p.Id== ProductId);
+                return result;
+            }
+        }
+
+        public List<Product> GetByCategory(int categoryId)
+        {
+            using (var context = new ECommerceContext())
+            {
+                var result = context.Products.Include(p => p.Brand).Include(p => p.Category).ThenInclude(p => p.Parent).ThenInclude(p => p.Parent).Include(p => p.ProductImages).ToList();
                 return result;
             }
         }

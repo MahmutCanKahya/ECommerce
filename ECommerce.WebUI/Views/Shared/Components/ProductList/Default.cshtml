@@ -1,0 +1,28 @@
+﻿@model ProductListViewModel
+<!-- Product -->
+
+
+@foreach (var product in Model.Products)
+{
+
+    <div class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div class="single-products">
+                <div class="productinfo text-center">
+                    <img style=" height: 30vh; width:100%" src="https://localhost:44385/images/@product.ProductImages.Last().Path"
+                         asp-append-version="true" />
+                    <h2>@product.Price ₺</h2>
+                    <p>@product.Name</p>
+                    <p style="font-weight:bold">@product.Brand.Name</p>
+                    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                </div>
+                <div class="product-overlay">
+                    <div class="overlay-content">
+                        <h2>@product.Price ₺</h2><p>@product.Name</p>
+                        <a asp-controller="Basket" asp-action="AddToBasket" asp-route-productId="@product.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

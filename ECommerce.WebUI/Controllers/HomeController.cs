@@ -20,11 +20,14 @@ namespace ECommerce.WebUI.Controllers
 
         public IActionResult Index()
         {
+            TempData["message"] = "Lütfen";
+            TempData["message"] = "Lütfen2";
             return View();
         }
 
         public IActionResult Privacy()
         {
+            TempData["message"] = "Lütfen2";
             return View();
         }
 

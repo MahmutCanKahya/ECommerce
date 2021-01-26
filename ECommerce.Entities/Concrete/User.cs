@@ -10,8 +10,9 @@ namespace ECommerce.Entities.Concrete
     {
         public User()
         {
+            Addresses = new HashSet<Address>();
+            Baskets = new HashSet<Basket>();
             Orders = new HashSet<Order>();
-            UserAdresses = new HashSet<UserAdress>();
         }
 
         public string Email { get; set; }
@@ -21,7 +22,8 @@ namespace ECommerce.Entities.Concrete
         public string Phone { get; set; }
         public int? RoleId { get; set; }
 
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Basket> Baskets { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<UserAdress> UserAdresses { get; set; }
     }
 }
