@@ -11,5 +11,6 @@ namespace ECommerce.DataAccess.Abstract
         public List<Product> GetAll();
         public Product Get(int ProductId);
         public List<Product> GetByCategory(int categoryId);
+
     }
 }

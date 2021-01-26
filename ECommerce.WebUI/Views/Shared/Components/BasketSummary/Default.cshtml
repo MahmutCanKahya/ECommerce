@@ -1,0 +1,36 @@
+﻿@model ECommerce.Entities.Concrete.Basket;
+
+<a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span  class="badge badge-secondary">
+        @Model.BasketDetails.Sum(c => c.Quantity)
+    </span>
+    <i class="fa fa-shopping-cart"></i>
+    <span>
+        Sepetim
+    </span>
+</a>
+<ul class="dropdown-menu" role="menu" aria-labelledby="basket-summanry">
+    @foreach (var item in Model.BasketDetails)
+    {
+        <li>
+
+            <a class="dropdown-item">
+                @item.Product.Name
+                <span class="badge badge-secondary">@item.Quantity</span>
+                <span class="badge badge-secondary">@(item.Quantity*item.Product.Price)</span>
+            </a>
+        </li>
+
+    }
+    <li class="divider"></li>
+
+    <li>
+
+        <a class="dropdown-item"><span class="glyphicon glyphicon-align-left glyphicon-shopping-cart" aria-hidden="true">Total: @Model.BasketDetails.Sum(c => c.Product.Price * c.Quantity)</span></a>
+
+    </li>
+    <li class="divider"></li>
+    <li>
+        <a class="dropdown-item" asp-controller="Cart" asp-action="List">Go to cart details</a>
+    </li>
+</ul>

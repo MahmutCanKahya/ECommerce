@@ -6,15 +6,15 @@ using System.Collections.Generic;
 
 namespace ECommerce.Entities.Concrete
 {
-    public partial class OrderDetail:IEntity
+    public partial class BasketDetail:IEntity
     {
-        
+       
 
-        public int? ProductId { get; set; }
-        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public int BasketId { get; set; }
         public int Quantity { get; set; }
 
-        public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
+        public virtual Basket Basket { get; set; }
     }
 }
